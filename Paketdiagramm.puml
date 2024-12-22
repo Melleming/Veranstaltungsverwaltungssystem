@@ -1,0 +1,53 @@
+@startuml
+package controller {
+    class MainController
+    class CartController
+}
+
+package dataManager {
+    class AccountManager
+    class CartManager
+    class EventManager
+    class DocumentPrinter
+    class AccountFactory
+}
+
+package utils {
+    class Cart
+    class CartItem
+    class Event
+    class BookedTicket
+}
+
+package utils.Konto {
+    class Account
+    class CustomerAccount
+    class AdminAccount
+}
+
+package gui {
+    class Window
+    class EventManagementWindow
+    class CartWindow
+    class LoginWindow
+    class EventCreateWindow
+    class EventEditWindow
+    class BookedTicketWindow
+    class BookedTicketDetailWindow
+    class AccountDetailsWindow
+    class AccountEditWindow
+    class RegisterWindow
+    class ManageAccountsWindow
+}
+
+' Relationen zwischen Paketen
+controller --> dataManager
+controller --> utils.Konto
+controller --> gui
+dataManager --> utils
+dataManager --> utils.Konto
+gui --> controller
+gui --> dataManager
+gui --> utils
+gui --> utils.Konto
+@enduml

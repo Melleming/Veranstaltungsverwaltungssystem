@@ -1,0 +1,23 @@
+Quittung
+------------------------------------------------------------
+Veranstaltung: Test
+Ort: Testort
+Datum: 23.12.2025
+Startzeit: 10:00
+Endzeit: 12:30
+Preis pro Ticket: 12,50 €
+Anzahl der Tickets: 10
+Gesamtpreis: 125,00 €
+------------------------------------------------------------
+Veranstaltung: Ver2
+Ort: Ort
+Datum: 01.02.2025
+Startzeit: 10:00
+Endzeit: 11:00
+Preis pro Ticket: 11,50 €
+Anzahl der Tickets: 20
+Gesamtpreis: 230,00 €
+------------------------------------------------------------
+Käufer: Kund
+Gesamtbetrag: 355,00 €
+------------------------------------------------------------

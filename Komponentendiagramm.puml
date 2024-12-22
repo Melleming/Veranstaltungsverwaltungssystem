@@ -1,0 +1,45 @@
+@startuml
+component "Controller Layer" as Controller {
+    [MainController]
+    [CartController]
+}
+
+component "Data Management" as DataManager {
+    [AccountManager]
+    [CartManager]
+    [EventManager]
+    [DocumentPrinter]
+    [AccountFactory]
+}
+
+component "Utilities" as Utilities {
+    [Cart]
+    [CartItem]
+    [Event]
+    [BookedTicket]
+    [Account]
+    [CustomerAccount]
+    [AdminAccount]
+}
+
+component "GUI" as GUI {
+    [EventManagementWindow]
+    [CartWindow]
+    [LoginWindow]
+    [EventCreateWindow]
+    [EventEditWindow]
+    [BookedTicketWindow]
+    [BookedTicketDetailWindow]
+    [AccountDetailsWindow]
+    [AccountEditWindow]
+    [RegisterWindow]
+    [ManageAccountsWindow]
+}
+
+Controller --> DataManager
+Controller --> Utilities
+GUI --> Controller
+GUI --> DataManager
+GUI --> Utilities
+DataManager --> Utilities
+@enduml

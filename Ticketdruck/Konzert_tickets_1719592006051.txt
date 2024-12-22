@@ -1,0 +1,10 @@
+Veranstaltung: Konzert
+Ort: Theater Altenburg
+Datum: 10.04.2025
+Startzeit: 19:00
+Endzeit: 22:00
+Preis pro Ticket: 12,50 €
+Anzahl der Tickets: 4
+Käufer: Kunde
+Gesamtpreis: 50,00 €
+------------------------------------------------------------

@@ -1,0 +1,158 @@
+@startuml
+    class CartController {
+    }
+
+    class MainController {
+    }
+
+
+    class AccountManager {
+    }
+
+    class CartManager {
+    }
+
+    class EventManager {
+    }
+
+    class DocumentPrinter {
+    }
+
+    class AccountFactory {
+    }
+
+    class Cart {
+    }
+
+    class CartItem {
+    }
+
+    class Event {
+    }
+
+    class BookedTicket {
+    }
+
+    abstract class Account {
+    }
+
+    class CustomerAccount extends Account {
+    }
+
+    class AdminAccount extends Account {
+    }
+
+    abstract class Window {
+    }
+
+    class EventManagementWindow extends Window {
+    }
+
+    class CartWindow extends Window {
+    }
+
+    class LoginWindow extends Window {
+    }
+
+    class EventCreateWindow extends Window {
+    }
+
+    class EventEditWindow extends Window {
+    }
+
+    class BookedTicketWindow extends Window {
+    }
+
+    class BookedTicketDetailWindow extends Window {
+    }
+
+    class AccountDetailsWindow extends Window {
+    }
+
+    class AccountEditWindow extends Window {
+    }
+
+    class RegisterWindow extends Window {
+    }
+
+    class ManageAccountsWindow extends Window {
+    }
+
+' Relationen im Controller
+MainController "1" *--> "1" AccountManager
+MainController "1" *--> "1" EventManager
+MainController "1" *--> "1" CartManager
+MainController "1" *--> "1" Account
+
+CartController "1" *--> "1" EventManager
+CartController "1" *--> "1" EventManagementWindow
+CartController "1" *--> "1" CustomerAccount
+CartController "1" *--> "1" CartManager
+CartController "1" *--> "1" AccountManager
+
+' Relationen im Datenmanager
+AccountManager "1" *--> "1..*" Account
+AccountManager "1" *--> "1" CartManager
+
+CartManager "1" *--> "1..*" Cart
+
+EventManager "1" *--> "1..*" Event
+
+DocumentPrinter "1" --> "1..*" BookedTicket
+DocumentPrinter "1" --> "1" CustomerAccount
+DocumentPrinter "1" --> "1" EventManager
+DocumentPrinter "1" --> "1" Event
+
+AccountFactory "1" --> "1" Account
+
+' Relationen im Warenkorb
+Cart "1" *--> "0..*" CartItem
+CartItem "1" --> "1" EventManager
+CartItem "1" --> "1" Event
+
+' Relationen für Events und Buchungen
+CustomerAccount "1" *--> "0..*" BookedTicket
+BookedTicket "1" --> "1" Event
+
+' Relationen für GUI-Klassen
+EventManagementWindow "1" *--> "1" EventManager
+EventManagementWindow "1" *--> "1" CartController
+EventManagementWindow "1" *--> "1" AccountManager
+EventManagementWindow "1" *--> "1" Account
+
+CartWindow "1" *--> "1" CartController
+CartWindow "1" *--> "1" EventManager
+
+LoginWindow "1" --> "1" MainController
+
+EventCreateWindow "1" *--> "1" EventManager
+EventCreateWindow "1" *--> "1" EventManagementWindow
+
+EventEditWindow "1" *--> "1" EventManager
+EventEditWindow "1" *--> "1" Event
+EventEditWindow "1" *--> "1" EventManagementWindow
+
+BookedTicketWindow "1" *--> "1" CustomerAccount
+BookedTicketWindow "1" *--> "1" EventManager
+
+BookedTicketDetailWindow "1" *--> "1" BookedTicket
+BookedTicketDetailWindow "1" *--> "1" EventManager
+
+AccountDetailsWindow "1" *--> "1" Account
+
+AccountEditWindow "1" *--> "1" AccountManager
+AccountEditWindow "1" *--> "1" Account
+AccountEditWindow "1" *--> "1" Account : currentUser
+
+
+RegisterWindow "1" *--> "1" AccountManager
+
+ManageAccountsWindow "1" *--> "1" AccountManager
+AccountEditWindow "1" *--> "1" Account : currentUser
+
+
+@enduml
+
+
+
+@enduml

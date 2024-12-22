@@ -1,0 +1,10 @@
+Veranstaltung: Ver2
+Ort: Ort
+Datum: 01.02.2025
+Startzeit: 10:00
+Endzeit: 11:00
+Preis pro Ticket: 11,50 €
+Anzahl der Tickets: 20
+Käufer: Kund
+Gesamtpreis: 230,00 €
+------------------------------------------------------------

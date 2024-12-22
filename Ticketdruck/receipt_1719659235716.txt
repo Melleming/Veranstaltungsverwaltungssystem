@@ -1,0 +1,14 @@
+Quittung
+------------------------------------------------------------
+Veranstaltung: Test
+Ort: Testort
+Datum: 23.12.2025
+Startzeit: 10:00
+Endzeit: 12:30
+Preis pro Ticket: 12,50 €
+Anzahl der Tickets: 80
+Gesamtpreis: 1000,00 €
+------------------------------------------------------------
+Käufer: test
+Gesamtbetrag: 1000,00 €
+------------------------------------------------------------

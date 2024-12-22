@@ -1,0 +1,355 @@
+@startuml
+package controller {
+    class CartController {
+        - EventManager eventManager
+        - EventManagementWindow eventManagementWindow
+        - CustomerAccount currentUser
+        - CartManager cartManager
+        - AccountManager accountManager
+        + CartController(EventManager, EventManagementWindow, CustomerAccount, CartManager, AccountManager)
+        + addToCart(Event, int)
+        + getCart(): Cart
+        + clearCart()
+        + purchaseCart()
+    }
+
+    class MainController {
+        - AccountManager accountManager
+        - EventManager eventManager
+        - CartManager cartManager
+        - Account currentUser
+        - static MainController mainController
+        + MainController()
+        + getMainController(): MainController
+        + showLoginScreen()
+        + showEventManagementWindow(Account)
+        + getAccountManager(): AccountManager
+        + getCurrentUser(): Account
+        + main(String[])
+    }
+}
+
+package dataManager {
+    class AccountManager {
+        - List<Account> accounts
+        - static final String SAVE_DIR = "Saves"
+        - static final String FILE_NAME = "Saves/accounts.ser"
+        - CartManager cartManager
+        + AccountManager(CartManager)
+        + addAccount(Account)
+        + removeAccount(Account, Account)
+        + getAccount(String): Account
+        + getAccounts(): List<Account>
+        + saveAccounts()
+        + loadAccounts()
+    }
+
+    class CartManager {
+        - Map<String, Cart> carts
+        - static final String SAVE_DIR = "Saves"
+        - static final String FILE_NAME = "Saves/carts.ser"
+        + CartManager()
+        + addCart(Account, Cart)
+        + removeCart(Account)
+        + getCart(Account): Cart
+    }
+
+    class EventManager {
+        - List<Event> events
+        - static final String SAVE_DIR = "Saves"
+        - static final String FILE_NAME = "Saves/events.ser"
+        + EventManager()
+        + addEvent(Event)
+        + removeEvent(Event)
+        + removeEventByName(String)
+        + getEvents(): List<Event>
+        + doEventExist(String): boolean
+        + getEventByName(String): Event
+        + getEventByUuid(UUID): Event
+        + saveEvents()
+        + loadEvents()
+    }
+
+    class DocumentPrinter {
+        + static printTickets(Event, int, CustomerAccount)
+        + static printReceipt(List<BookedTicket>, CustomerAccount, EventManager)
+    }
+
+    class AccountFactory {
+        + static createAccount(String, String, String): Account
+    }
+}
+
+package utils {
+    class Cart {
+        - List<CartItem> items
+        + Cart()
+        + addItem(UUID, int)
+        + getItems(): List<CartItem>
+        + clear()
+        + purchase()
+        + getTotalPrice(EventManager): double
+    }
+
+    class CartItem {
+        - UUID eventUuid
+        - int quantity
+        + CartItem(UUID, int)
+        + getEventUuid(): UUID
+        + getQuantity(): int
+        + setQuantity(int)
+        + getTotalPrice(EventManager): double
+    }
+
+    class Event {
+        - UUID uuid
+        - String name
+        - String location
+        - String date
+        - String startTime
+        - String endTime
+        - double price
+        - int totalTickets
+        - int soldTickets
+        + Event(String, String, String, String, String, double, int)
+        + getUuid(): UUID
+        + getName(): String
+        + getLocation(): String
+        + getDate(): String
+        + getStartTime(): String
+        + getEndTime(): String
+        + getPrice(): double
+        + getTotalTickets(): int
+        + getSoldTickets(): int
+        + setSoldTickets(int)
+        + setName(String)
+        + setLocation(String)
+        + setDate(String)
+        + setStartTime(String)
+        + setEndTime(String)
+        + setPrice(double)
+        + setTotalTickets(int)
+    }
+
+    class BookedTicket {
+        - UUID eventUuid
+        - int quantity
+        - double pricePerTicket
+        + BookedTicket(UUID, int, double)
+        + getEventUuid(): UUID
+        + getQuantity(): int
+        + getPricePerTicket(): double
+        + getTotalPrice(): double
+    }
+}
+
+package utils.Konto {
+    abstract class Account {
+        - String benutzername
+        - String passwort
+        + Account(String, String)
+        + getBenutzername(): String
+        + getPasswort(): String
+        + setBenutzername(String)
+        + setPasswort(String)
+    }
+
+    class CustomerAccount extends Account {
+        - List<BookedTicket> bookedTickets
+        + CustomerAccount(String, String)
+        + getBookedTickets(): List<BookedTicket>
+        + addBookedTicket(BookedTicket)
+    }
+
+    class AdminAccount extends Account {
+        + AdminAccount(String, String)
+    }
+}
+
+package gui {
+    abstract class Window {
+        - JFrame frame
+        + Window(String, int, int)
+        + show()
+    }
+
+    class EventManagementWindow extends Window {
+        - JTable table
+        - DefaultTableModel tableModel
+        - EventManager eventManager
+        - AccountManager accountManager
+        - CartController cartController
+        - Account currentUser
+        + EventManagementWindow(EventManager, Account, CartManager)
+        + updateTable()
+    }
+
+    class CartWindow extends Window {
+        - CartController cartController
+        - EventManager eventManager
+        - JTable table
+        - DefaultTableModel tableModel
+        - JLabel totalPriceLabel
+        + CartWindow(CartController, EventManager)
+        + updateTable()
+    }
+
+    class LoginWindow extends Window {
+        - JTextField usernameField
+        - JPasswordField passwordField
+        + LoginWindow()
+    }
+
+    class EventCreateWindow extends Window {
+        - EventManager eventManager
+        - JTextField nameField
+        - JTextField locationField
+        - JTextField dateField
+        - JTextField startTimeField
+        - JTextField endTimeField
+        - JTextField priceField
+        - JTextField totalTicketsField
+        + EventCreateWindow(EventManager, EventManagementWindow)
+    }
+
+    class EventEditWindow extends Window {
+        - EventManager eventManager
+        - Event event
+        - JTextField nameField
+        - JTextField locationField
+        - JTextField dateField
+        - JTextField startTimeField
+        - JTextField endTimeField
+        - JTextField priceField
+        - JTextField totalTicketsField
+        + EventEditWindow(Event, EventManager, EventManagementWindow)
+    }
+
+    class BookedTicketWindow extends Window {
+        - CustomerAccount currentUser
+        - EventManager eventManager
+        - JTable table
+        - DefaultTableModel tableModel
+        + BookedTicketWindow(CustomerAccount, EventManager)
+    }
+
+    class BookedTicketDetailWindow extends Window {
+        - BookedTicket ticket
+        - EventManager eventManager
+        + BookedTicketDetailWindow(BookedTicket, EventManager)
+    }
+
+    class AccountDetailsWindow extends Window {
+        - Account account
+        + AccountDetailsWindow(Account)
+    }
+
+    class AccountEditWindow extends Window {
+        - JTextField usernameField
+        - JPasswordField passwordField
+        - JComboBox<String> accountTypeComboBox
+        - AccountManager accountManager
+        - Account account
+        - Account currentUser
+        + AccountEditWindow(AccountManager, Account, Account)
+    }
+
+    class RegisterWindow extends Window {
+        - JTextField usernameField
+        - JPasswordField passwordField
+        - JPasswordField confirmPasswordField
+        - JComboBox<String> accountTypeComboBox
+        - AccountManager accountManager
+        + RegisterWindow(AccountManager, boolean)
+    }
+
+    class ManageAccountsWindow extends Window {
+        - JTable table
+        - DefaultTableModel tableModel
+        - AccountManager accountManager
+        - Account currentUser
+        + ManageAccountsWindow(AccountManager, Account)
+        + updateTable()
+    }
+}
+
+@startuml
+
+' Relationen im Controller
+MainController "1" *--> "1" AccountManager
+MainController "1" *--> "1" EventManager
+MainController "1" *--> "1" CartManager
+MainController "1" *--> "1" Account
+
+CartController "1" *--> "1" EventManager
+CartController "1" *--> "1" EventManagementWindow
+CartController "1" *--> "1" CustomerAccount
+CartController "1" *--> "1" CartManager
+CartController "1" *--> "1" AccountManager
+
+' Relationen im Datenmanager
+AccountManager "1" *--> "1..*" Account
+AccountManager "1" *--> "1" CartManager
+
+CartManager "1" *--> "1..*" Cart
+
+EventManager "1" *--> "1..*" Event
+
+DocumentPrinter "1" --> "1..*" BookedTicket
+DocumentPrinter "1" --> "1" CustomerAccount
+DocumentPrinter "1" --> "1" EventManager
+DocumentPrinter "1" --> "1" Event
+
+AccountFactory "1" --> "1" Account
+
+' Relationen im Warenkorb
+Cart "1" *--> "0..*" CartItem
+CartItem "1" --> "1" EventManager
+CartItem "1" --> "1" Event
+
+' Relationen für Events und Buchungen
+CustomerAccount "1" *--> "0..*" BookedTicket
+BookedTicket "1" --> "1" Event
+
+' Relationen für GUI-Klassen
+EventManagementWindow "1" *--> "1" EventManager
+EventManagementWindow "1" *--> "1" CartController
+EventManagementWindow "1" *--> "1" AccountManager
+EventManagementWindow "1" *--> "1" Account
+
+CartWindow "1" *--> "1" CartController
+CartWindow "1" *--> "1" EventManager
+
+LoginWindow "1" --> "1" MainController
+
+EventCreateWindow "1" *--> "1" EventManager
+EventCreateWindow "1" *--> "1" EventManagementWindow
+
+EventEditWindow "1" *--> "1" EventManager
+EventEditWindow "1" *--> "1" Event
+EventEditWindow "1" *--> "1" EventManagementWindow
+
+BookedTicketWindow "1" *--> "1" CustomerAccount
+BookedTicketWindow "1" *--> "1" EventManager
+
+BookedTicketDetailWindow "1" *--> "1" BookedTicket
+BookedTicketDetailWindow "1" *--> "1" EventManager
+
+AccountDetailsWindow "1" *--> "1" Account
+
+AccountEditWindow "1" *--> "1" AccountManager
+AccountEditWindow "1" *--> "1" Account
+AccountEditWindow "1" *--> "1" Account : currentUser
+
+
+RegisterWindow "1" *--> "1" AccountManager
+
+ManageAccountsWindow "1" *--> "1" AccountManager
+AccountEditWindow "1" *--> "1" Account : currentUser
+
+
+@enduml
+
+
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+node "Client" {
+    [GUI Applications]
+}
+
+node "Application Server" {
+    [MainController]
+    [CartController]
+    [AccountManager]
+    [CartManager]
+    [EventManager]
+    [DocumentPrinter]
+}
+
+node "Database/Utils" {
+    [Accounts]
+    [Cart]
+    [CartItem]
+    [Event]
+    [BookedTickets]
+}
+
+' Verbindungen zwischen den Knoten
+[GUI Applications] --> [MainController]
+[MainController] --> [AccountManager]
+[AccountManager] --> [Accounts]
+[CartController] --> [CartManager]
+[CartManager] --> [Cart]
+[CartManager] --> [CartItem]
+[EventManager] --> [Event]
+[EventManager] --> [BookedTickets]
+[GUI Applications] --> [DocumentPrinter]
+[GUI Applications] --> [CartController]
+[GUI Applications] --> [EventManager]
+@enduml
