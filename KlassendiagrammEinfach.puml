@@ -1,11 +1,13 @@
 @startuml
+package controller {
     class CartController {
     }
 
     class MainController {
     }
+}
 
-
+package dataManager {
     class AccountManager {
     }
 
@@ -20,7 +22,9 @@
 
     class AccountFactory {
     }
+}
 
+package utils {
     class Cart {
     }
 
@@ -32,7 +36,9 @@
 
     class BookedTicket {
     }
+}
 
+package utils.Konto {
     abstract class Account {
     }
 
@@ -41,7 +47,9 @@
 
     class AdminAccount extends Account {
     }
+}
 
+package gui {
     abstract class Window {
     }
 
@@ -77,6 +85,7 @@
 
     class ManageAccountsWindow extends Window {
     }
+}
 
 ' Relationen im Controller
 MainController "1" *--> "1" AccountManager
